@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	isAjaxActive=false;
+	isAjaxActive = false;
 
 	function refresh() {
 		$("#accordion").accordion({
@@ -7,35 +7,37 @@ $(document).ready(function() {
 			heightStyle : "content"
 		});
 		$(".refreshSettings").click(function() {
-			preAjax();
-			
+			el = $(this)
+			preAjax(el);
+
 			$.ajax({
 				type : 'GET',
 				url : '/member-engine-admin/settings/refresh',
-				success : function(data) {					
+				success : function(data) {
 					$('#settingsPanelPlaceHolder').html(data);
-					postAjax();
+					postAjax(el);
 				},
 				error : function(request, status, error) {
-					 alert(request.responseText);
+					postAjax(el);
+					alert(request.responseText);
 				}
 			});
 			return false;
 		});
 		$(".applySettings").click(function() {
-			preAjax()
-			el=$(this)
+			el = $(this)
+			preAjax(el)
 			$.ajax({
 				type : 'POST',
-				data : el.parents('form:first').serialize()
-				,
+				data : el.parents('form:first').serialize(),
 				url : '/member-engine-admin/settings/applySettings',
-				success : function(data) {				
-					$('#settingsPanelPlaceHolder').html(data);					
-					postAjax();
+				success : function(data) {
+					$('#settingsPanelPlaceHolder').html(data);
+					postAjax(el);
 				},
 				error : function(request, status, error) {
-					 alert(request.responseText);
+					postAjax(el);
+					alert(request.responseText);
 				}
 			});
 			return false;
@@ -57,43 +59,46 @@ $(document).ready(function() {
 		}
 
 	}
-	function preAjax(){
-		isAjaxActive=true;
+	function preAjax() {
+		isAjaxActive = true;
+		el.unbind('click');
+		el.attr("disabled", true);
 		showOverlay();
 	}
-	function postAjax(){
-		isAjaxActive=false;
+	function postAjax() {
+		isAjaxActive = false;
+		el.attr("disabled", false);
 		hideOverlay();
 		refresh();
 	}
 	$(".changeEnvLink").click(function() {
-		preAjax()
-		el=$(this)
+		el = $(this)
+		preAjax(el)
 		$.ajax({
 			type : 'POST',
 			data : {
 				'env' : $(this).attr("env")
 			},
 			url : '/member-engine-admin/settings/getSettings',
-			success : function(data) {				
+			success : function(data) {
 				$('#settingsPanelPlaceHolder').html(data);
-				el.addClass("active")
-				postAjax();
+				//unselected other active tabs
+				el.parent().siblings().removeClass("active")
+				//mark current tab as active
+				el.parent().addClass("active")
+				postAjax(el);
 			},
 			error : function(request, status, error) {
-				 alert(request.responseText);
+				postAjax(el);
+				alert(request.responseText);
 			}
 		});
 		return false;
 	});
-	
-	
-	
-	
+
 	$("#home").click(function() {
 		toggleOverlay();
 	});
 	refresh();
-	
 
 });

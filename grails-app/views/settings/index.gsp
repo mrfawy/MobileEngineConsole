@@ -27,9 +27,17 @@
 							</ul>
 							<g:if test="${session.isAdmin}">
 								<ul class="nav navbar-nav navbar-right">
-									<li><g:link controller="login" action="logout">Sign out</g:link></li>
+								
+									<li><g:link controller="login" action="logout"><span class="glyphicon glyphicon-log-out btnIcon "
+								aria-hidden="true"></span>Sign out</g:link></li>
 								</ul>
 							</g:if>
+							<g:else><ul class="nav navbar-nav navbar-right">
+									<li><g:link controller="login" action="index"><span class="glyphicon glyphicon-home btnIcon "
+								aria-hidden="true"></span>Home</g:link></li>
+								</ul>
+							
+							</g:else>
 
 						</div>
 

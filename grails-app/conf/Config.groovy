@@ -99,6 +99,12 @@ environments {
 			ST{
 				Url='http://localhost:9080'
 			}
+			RT1{
+				Url='http://localhost:9080'
+			}
+			RT2{
+				Url='http://localhost:9080'
+			}
 			PT{
 				Url='http://localhost:9080'
 			}

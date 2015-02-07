@@ -4,21 +4,23 @@
 	<div class="panel-heading">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-9">
-					Settings
+				<div class="col-sm-2 col-lg-4">Settings [ ${session.currentEnv} ]</div>
+				<div class="col-sm-1 col-lg-5">
 					<g:link name="refreshSettings" class="refreshSettings">
 						<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 					</g:link>
 				</div>
+
 				<g:if test="${session.isAdmin}">
 					<g:if test="${editable==true}">
 
 
-						<div class="col-sm-2">
+						<div class="col-sm-2 col-lg-2">
 							<g:link class=" btn btn-danger applySettings">
-								<span class="glyphicon glyphicon-cloud-upload btnIcon" aria-hidden="true"></span>Override Settings</g:link>
+								<span class="glyphicon glyphicon-cloud-upload btnIcon"
+									aria-hidden="true"></span>Override Settings</g:link>
 						</div>
-						<div class="col-sm-1">
+						<div class="col-sm-1 col-lg-1">
 							<g:remoteLink action="cancel" update="view" params="['env':env]"
 								class="btn-group btn btn-success" role="group">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel </g:remoteLink>
@@ -28,7 +30,8 @@
 					<g:else>
 						<g:remoteLink action="editSettings" update="view"
 							onSuccess="refresh();" class="pull-right" params="[env:'IT']">
-							<span class="glyphicon glyphicon-pencil btnIcon " aria-hidden="true"></span>Edit</g:remoteLink>
+							<span class="glyphicon glyphicon-pencil btnIcon "
+								aria-hidden="true"></span>Edit</g:remoteLink>
 					</g:else>
 				</g:if>
 

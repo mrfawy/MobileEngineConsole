@@ -112,10 +112,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  -webkit-animation: loadingStart 3s 300ms linear 1 both;
-  -moz-animation: loadingStart 3s 300ms linear 1 both;
-  -o-animation: loadingStart 3s 300ms linear 1 both;
-  animation: loadingStart 3s 300ms linear 1 both;
+  -webkit-animation: loadingStart 1s 300ms linear 1 both;
+  -moz-animation: loadingStart 1s 300ms linear 1 both;
+  -o-animation: loadingStart 1s 300ms linear 1 both;
+  animation: loadingStart 1s 300ms linear 1 both;
   z-index:1;
   background: rgba(50, 50, 80, 0.5);
   text-align: center;

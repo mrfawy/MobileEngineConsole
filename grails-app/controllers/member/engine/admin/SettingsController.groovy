@@ -47,6 +47,7 @@ class SettingsController {
 			render( "No Envirnment Selected")
 		}
 		currentEnv=params.env
+		session.currentEnv=currentEnv
 		def activeSettings=settingsService.getSettings(currentEnv)
 
 		if(!activeSettings){
