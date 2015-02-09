@@ -19,6 +19,9 @@
 <asset:stylesheet href="jquery-ui.structure.css" />
 
 
+<asset:stylesheet href="modal_alert.css" />
+
+
 
 <asset:javascript src="loading-overlay.min.js" />
 
@@ -35,6 +38,9 @@
 <g:layoutHead />
 </head>
 <body>
+	<div>
+		<g:render template="/common/modal_alert" />
+	</div>
 	<g:layoutBody />
 
 

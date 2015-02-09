@@ -97,6 +97,10 @@ $(document).ready(function() {
 	});
 
 	$("#home").click(function() {
+		$('#modal_alert').find('#modal_body >p').text("Welcome To Console!! ");
+		$('#modal_alert').modal({
+			keyboard: true
+		});
 		toggleOverlay();
 	});
 	refresh();
