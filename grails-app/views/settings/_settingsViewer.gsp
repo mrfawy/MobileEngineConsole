@@ -28,8 +28,8 @@
 
 					</g:if>
 					<g:else>
-						<g:remoteLink action="editSettings" update="view"
-							onSuccess="refresh();" class="pull-right" params="[env:'IT']">
+						<g:remoteLink action="editSettings" update="view" 
+							onSuccess="refresh();" class="pull-right" >
 							<span class="glyphicon glyphicon-pencil btnIcon "
 								aria-hidden="true"></span>Edit</g:remoteLink>
 					</g:else>

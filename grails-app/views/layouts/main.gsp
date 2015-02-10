@@ -20,9 +20,6 @@
 
 
 <asset:stylesheet href="modal_alert.css" />
-
-
-
 <asset:javascript src="loading-overlay.min.js" />
 
 

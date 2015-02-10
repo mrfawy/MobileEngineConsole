@@ -19,7 +19,7 @@ $(document).ready(function() {
 				},
 				error : function(request, status, error) {
 					postAjax(el);
-					alert(request.responseText);
+					showErrorAlert();
 				}
 			});
 			return false;
@@ -37,11 +37,39 @@ $(document).ready(function() {
 				},
 				error : function(request, status, error) {
 					postAjax(el);
-					alert(request.responseText);
+					showErrorAlert();
 				}
 			});
 			return false;
 		});
+		
+	$(".multiEditingCheck").click(
+			function() {
+				if ($(this).is(':checked')) {
+					$(this).closest(".root").find(".prefix").attr("disabled", false);
+					$(this).closest(".root").find(".prefix")
+							.on("keyup",prefixChangedHandler)
+				} else {
+					$(this).closest(".root").find(".prefix").attr("disabled", true);
+
+				}
+
+			});
+	
+
+	}
+	function prefixChangedHandler(event) {		
+		el=$(event.target)
+		token = ".INQUIR";
+		prefix = el.val();		
+			el.closest(".root").find(".editableQueue").each(function() {
+				oldValue = $(this).val()
+				lastIndexToChange = oldValue.indexOf(token)				
+				newValue = prefix + oldValue.slice(lastIndexToChange)				
+				$(this).val(newValue)
+
+			});
+		
 
 	}
 	var overlayTarget = '#settingsPanel'
@@ -71,6 +99,16 @@ $(document).ready(function() {
 		hideOverlay();
 		refresh();
 	}
+	function showErrorAlert(msg) {
+		if (!msg) {
+			msg = "Operation Failed , sorry for inconvenience"
+		}
+		$('#modal_alert').find('#modal_body >p').text(msg);
+		$('#modal_alert').modal({
+			keyboard : true
+		});
+
+	}
 	$(".changeEnvLink").click(function() {
 		el = $(this)
 		preAjax(el)
@@ -90,7 +128,7 @@ $(document).ready(function() {
 			},
 			error : function(request, status, error) {
 				postAjax(el);
-				alert(request.responseText);
+				showErrorAlert();
 			}
 		});
 		return false;

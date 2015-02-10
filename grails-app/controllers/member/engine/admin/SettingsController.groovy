@@ -41,8 +41,6 @@ class SettingsController {
 		render(template:"settingsViewer", model:[activeSettings:currentSettings])
 	}
 	def getSettings() {
-		
-
 		if(!params.env){
 			render( "No Envirnment Selected")
 		}
