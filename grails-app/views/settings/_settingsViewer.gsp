@@ -4,14 +4,14 @@
 	<div class="panel-heading">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-2 col-lg-4">Settings <span class="badge"> ${session.currentEnv}</span></div>
+				<div class="col-sm-2 col-lg-4">Settings <span class="badge"> ${env}</span></div>
 				<div class="col-sm-1 col-lg-5">
 					<g:link name="refreshSettings" class="refreshSettings">
 						<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 					</g:link>
 				</div>
 
-				<g:if test="${session.isAdmin}">
+				<g:if test="${isAdmin}">
 					<g:if test="${editable==true}">
 
 

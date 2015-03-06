@@ -4,8 +4,6 @@ package member.engine.admin
 class SettingsController {
 	def grailsApplication
 	def settingsService
-	def currentEnv
-	def currentSettings
 	def envList
 
 	def index() {
@@ -15,10 +13,9 @@ class SettingsController {
 				if(item.key!='null'){
 					envList<<"${item.key}"
 				}
-				
-			}			
+			}
 		}
-		
+
 		render(view:"index" , model:[envList:envList])
 	}
 	def editSettings(){
@@ -26,52 +23,75 @@ class SettingsController {
 			throw new Exception("You are not allowed to Edit ")
 		}
 
-		render(template:"settingsViewer", model:[activeSettings:currentSettings,editable:true])
+		render(template:"settingsViewer", model:[env:session.currentEnv,isAdmin:session.isAdmin,activeSettings:session.currentSettings,editable:true])
 	}
 	def cancel(){
-		render(template:"settingsViewer", model:[activeSettings:currentSettings])
+		render(template:"settingsViewer", model:[env:session.currentEnv,isAdmin:session.isAdmin,activeSettings:session.currentSettings])
 	}
 	def refresh(){
-		def activeSettings=settingsService.getSettings(currentEnv)
+		def activeSettings=settingsService.getSettings(session.currentEnv)
 
 		if(!activeSettings){
 			throw new Exception("Failed to load settings")
 		}
-		currentSettings=activeSettings
-		render(template:"settingsViewer", model:[activeSettings:currentSettings])
+		session.currentSettings=activeSettings
+		render(template:"settingsViewer", model:[env:session.currentEnv,isAdmin:session.isAdmin,activeSettings:session.currentSettings])
 	}
 	def getSettings() {
 		if(!params.env){
 			render( "No Envirnment Selected")
 		}
-		currentEnv=params.env
-		session.currentEnv=currentEnv
-		def activeSettings=settingsService.getSettings(currentEnv)
+		
+		session.currentEnv=params.env
+		def activeSettings=settingsService.getSettings(session.currentEnv)
 
 		if(!activeSettings){
 			throw new Exception("Failed to load settings")
 		}
-		currentSettings=activeSettings
+		session.currentSettings=activeSettings
 
-		render(template:"settingsViewer", model:[activeSettings:currentSettings])
+		render(template:"settingsViewer", model:[env:session.currentEnv,isAdmin:session.isAdmin,activeSettings:session.currentSettings])
 	}
 	def applySettings() {
-
-		currentSettings.activeSettings.bamSettings.each(){item->
+		if(!session.currentSettings){
+			throw new Exception ("Current settings doesn't exists!!")
+		}
+		def currentSettings=session.currentSettings
+		session.currentSettings.activeSettings.bamSettings.each(){item->
 			item.wsaToValue=params[item.id]
 		}
-		currentSettings.activeSettings.flexBilingSettings.queues.each(){item->
+		session.currentSettings.activeSettings.flexBilingSettings.queues.each(){item->
 			item.value=params["${currentSettings.activeSettings.flexBilingSettings.id}:${item.name}"]
 		}
-		currentSettings.activeSettings.policyInfoSettings.queues.each(){item->
+		session.currentSettings.activeSettings.policyInfoSettings.queues.each(){item->
 			item.value=params["${currentSettings.activeSettings.policyInfoSettings.id}:${item.name}"]
 		}
-		//def success=settingsService.applySettings(currentSettings,currentEnv)
-		def success=true
-		if(!success){
-			throw new Exception("Failed to apply settings")
+	
+		def success=settingsService.applySettings(session.currentSettings,session.currentEnv)
+		if(success){
+			sendApplySettingsEmail(session.currentSettings)
 		}
+		else{
+			throw new Exception("Failed to apply settings")
+		}		
 
-		render(template:"settingsViewer", model:[activeSettings:currentSettings,editable:false])
+		render(template:"settingsViewer", model:[env:session.currentEnv,isAdmin:session.isAdmin,activeSettings:session.currentSettings,editable:false])
+	}
+	
+	def sendEmail(){
+		def activeSettings=session.currentSettings
+		render view:"confirmationEmail" ,model:[env:session.currentEnv,activeSettings:activeSettings]
+	}
+
+	private sendApplySettingsEmail(activeSettings){		
+		sendMail {
+			async true
+			from grailsApplication.config.email.from
+			to grailsApplication.config.email.to
+			subject grailsApplication.config.email.subject
+			html view:"confirmationEmail" ,model:[env:session.currentEnv,activeSettings:activeSettings]
+		}
+		log.info  "EMail sent successfully "
 	}
 }
+

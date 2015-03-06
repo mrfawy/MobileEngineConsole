@@ -57,6 +57,12 @@ grails {
         // escapes all not-encoded output at final stage of outputting
         // filteringCodecForContentType.'text/html' = 'html'
     }
+	mail {		
+		host = "mail-testlab.nwielab.net"
+		port = 25
+		username = ""
+		password = ""		
+	  }
 }
 
 
@@ -108,6 +114,14 @@ environments {
 			PT{
 				Url='http://localhost:9080'
 			}
+			PT2{
+				Url='http://localhost:9080'
+			}
+		}
+		email{
+			from= "Mobile-engine-admin@NW.com"
+			to="abdelm2@nationwide.com"
+			subject="Mobile Engine settings have been changed "
 		}
     }
     production {
@@ -123,6 +137,7 @@ log4j.main = {
     appenders {
         console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     }
+	trace 'org.springframework.aop.interceptor.DebugInterceptor'
 	info "grails.app"
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
@@ -136,6 +151,7 @@ log4j.main = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+	
 }
 grails.resources.adhoc.includes = [
 	'/images/**', '/css/**', '/js/**', '/fonts/**'

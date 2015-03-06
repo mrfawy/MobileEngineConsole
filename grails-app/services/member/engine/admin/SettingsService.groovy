@@ -3,7 +3,7 @@ package member.engine.admin
 import grails.transaction.Transactional
 import groovy.json.JsonSlurper
 import groovyx.net.http.HTTPBuilder
-import static groovyx.net.http.Method.GET
+import static groovyx.net.http.Method.*
 import static groovyx.net.http.ContentType.JSON
 
 @Transactional
@@ -21,13 +21,11 @@ class SettingsService {
 			
 		if(true){
 			sleep(2000);
-			return getStubSettings()
+			
 		}
-			
-			
-/*
 
-		def url=grailsApplication.config.mobileEngine."${env}".Url
+		return getStubSettings()
+		/*def url=grailsApplication.config.mobileEngine."${env}".Url
 
 
 		def http = new HTTPBuilder(url)
@@ -58,7 +56,7 @@ class SettingsService {
 
 		http.request( POST, JSON ) { req ->
 			body = settings
-
+			uri.path='/customer/admin/settings'
 			response.success = { resp, json ->
 				result=true
 			}
